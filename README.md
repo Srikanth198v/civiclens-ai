@@ -46,7 +46,12 @@ npm run dev
 ```
 No backend credentials are needed. OpenStreetMap tiles require network access. No AI or backend secrets are used in the frontend.
 
-## Development commands
+## Phase 2 browser QA (2026-11-03)
+
+Executed against the local Vite app in headless Chromium with a persistent browser profile. `node qa-run.cjs` reported 41/41 checks passing. Covered direct route loads and refresh for `/`, `/dashboard`, `/explore`, `/map`, `/report/new`, `/profile`, and the generated report detail route; verified layout CSS was applied; required-field validation; image preview/removal; valid report save and local-only receipt; report detail refresh; search, category/status filters, title/oldest sort selection; map/list toggle; profile preference persistence after refresh and browser-context close/reopen; mobile navigation at 390x844; desktop at 1440x1000; horizontal overflow; icon-only button names; and anchors missing href. Captured browser console errors and page errors: none. One OpenStreetMap tile request was aborted during navigation away from the map; no HTTP 4xx/5xx was recorded.
+
+This is a targeted automated browser pass, not exhaustive manual QA. It does not certify assistive-technology behavior, WCAG conformance, all breakpoints/devices, every external tile/network condition, or cross-browser behavior. App data is browser-local demo data and report submission does not contact an authority. Automated service tests are separate from this browser run.
+
 ```bash
 npm run dev        # start Vite development server
 npm run test       # run Vitest service tests
