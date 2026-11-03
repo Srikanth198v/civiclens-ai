@@ -92,9 +92,11 @@ const tinyPng = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAFUl
  await menu.click();
  check('mobile navigation opens',await page.getByRole('navigation',{name:/workspace navigation/i}).isVisible());
  await page.getByRole('link',{name:/explore issues/i}).click();
- await page.waitForURL(/\/explore$/);
- await page.waitForTimeout(150);
- check('mobile navigation route works',await page.locator('main h1').innerText().then(x=>/explore issues/i.test(x)),await page.locator('main h1').innerText());
+ let mobileRouteReady = false;
+ await page.waitForFunction(() => window.location.pathname === '/explore' && /explore issues/i.test(document.querySelector('main h1')?.textContent ?? ''), null, {timeout:5000}).then(()=>{mobileRouteReady=true}).catch(()=>{});
+ const mobileRoute = new URL(page.url()).pathname;
+ const mobileHeading = await page.locator('main h1').innerText();
+ check('mobile navigation route works',mobileRouteReady && mobileRoute==='/explore' && /explore issues/i.test(mobileHeading),`${mobileRoute} | ${mobileHeading}`);
  await page.setViewportSize({width:1440,height:1000});
  out.desktop={viewport:1440,documentWidth:await page.locator('body').evaluate(e=>e.scrollWidth),horizontalOverflow:await page.locator('body').evaluate(e=>e.scrollWidth>1440)};
  check('desktop layout no horizontal overflow',!out.desktop.horizontalOverflow,JSON.stringify(out.desktop));
