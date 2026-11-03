@@ -1,50 +1,39 @@
 # CivicLens AI
 
-An AI-powered civic intelligence and community problem reporting platform concept. CivicLens aims to help residents document local infrastructure concerns and help communities see patterns more clearly.
+An AI-powered civic intelligence and community problem reporting platform concept. Phase 2 delivers a responsive frontend for exploring clearly labelled sample issues and creating local-only demo reports.
 
-> **Current status:** this repository is an initial frontend and planning foundation. The landing page is a static concept preview. Report submission, accounts, live maps, AI analysis, database, and dashboard data are not implemented or connected.
+> **Current status:** the browser frontend supports landing, dashboard, report creation and detail, issue exploration, a Leaflet/OpenStreetMap demo map, and profile/preferences UI. User-created reports and preferences are stored in this browser's localStorage only. This is temporary, not cloud storage, not synchronized, and does not submit anything to a government authority. Sample locations and statuses are illustrative, not real civic data. Authentication, Supabase, AI analysis, moderation and government integrations are not implemented.
 
-## Problem
-Residents often encounter potholes, waste issues, water disruptions, drainage problems, broken streetlights, or damaged public infrastructure but lack a simple, organized way to document what they see. Reports can be fragmented and hard for a community to understand collectively.
-
-## Vision
-Build a respectful, accessible platform where people can share local concerns with text and optional images, understand how information is handled, and organize reports into a useful community picture. Any future AI should assist with organization, communicate uncertainty, and remain reviewable by people.
-
-## Planned features
-- Accessible issue reporting with category, optional photo, and consent-based location.
-- Report receipt, status, and correction/deletion processes.
-- Community report list with filters and an optional map view.
-- Optional AI-assisted classification and summaries behind a trusted server boundary.
-- Moderation, privacy controls, and transparent report visibility.
-
-These are roadmap goals, not working features. The current app has only a responsive static landing page with illustrative, clearly labeled concept UI. It does not send or store reports and displays no live civic data.
+## Features
+- React Router sections for landing, dashboard, report form, explore, issue map, report detail, and profile/settings.
+- Responsive dashboard with demo-labeled counts, category breakdown, activity, and filterable recent reports.
+- Report form with required field validation, character limits, optional JPG/PNG/WebP preview and removal, 5 MB limit, opt-in geolocation, and map location selection.
+- Local demo report receipt, recoverable report details and activity timeline.
+- Search, category/status filters and newest/oldest/title sorting in issue exploration.
+- Leaflet map with OpenStreetMap tiles, category-colored sample markers, popups, zoom, selectable locations and accessible corresponding list view.
+- Locally saved light/dark preference and UI-only notification toggle. No account or notification service exists.
+- Typed user/report/category/status/location/activity contracts and separate demo service/storage modules.
 
 ## Technology
-- React 19 and TypeScript in strict mode.
-- Vite for local development and production builds.
-- Tailwind CSS v4 using `@tailwindcss/vite`.
-- Lucide React icons.
-- Supabase is a documented backend candidate only; it is not installed or connected.
-- AI and map providers have not been selected or integrated.
+- React 19, strict TypeScript, Vite, Tailwind CSS v4, Lucide React.
+- React Router, Leaflet, React Leaflet.
+- Vitest, jsdom, and Testing Library for service tests.
+- MIT license. See [`LICENSE`](LICENSE).
 
 ## Architecture
 ```text
 src/
-  components/  reusable presentation components
-  pages/       screen-level composition
-  layouts/     shared navigation and page shell
-  hooks/       reusable UI/browser behavior
-  lib/         app constants and cross-cutting helpers
-  services/    future external API boundaries
+  components/  reusable application shell, navigation and map widgets
+  layouts/     shared app layout
+  pages/       landing and routed product screens
+  services/    demo records and localStorage adapter
   types/       shared domain contracts
-  utils/       small pure helpers
-public/        static assets served by Vite
+  test/        test setup
 .kiro/
-  steering/    durable product, technology, and structure guidance
-  specs/       MVP requirements, design, and ordered tasks
+  steering/    durable product, technology and structure guidance
+  specs/       MVP requirements, design and implementation checklist
 ```
-
-The current service module is an explicit unavailable boundary, not a functioning submission implementation. Read [`.kiro/steering/`](.kiro/steering/) and [the MVP spec](.kiro/specs/civiclens-mvp/) for the working product plan.
+Sample data is generated by the demo service. User-created reports and settings are stored separately under versioned localStorage keys. This is not a production persistence/security boundary and can be cleared by the user or browser.
 
 ## Local setup
 Requirements: Node.js 20.19+ or 22.12+ and npm.
@@ -53,31 +42,27 @@ Requirements: Node.js 20.19+ or 22.12+ and npm.
 git clone https://github.com/Srikanth198v/civiclens-ai.git
 cd civiclens-ai
 npm install
-cp .env.example .env.local
 npm run dev
 ```
-
-No backend credentials are needed to run the current static concept. The `.env.example` values are placeholders only. Do not put an AI provider secret in a `VITE_*` variable or expose it to the browser. Future server-side integrations must use a protected server environment.
+No backend credentials are needed. OpenStreetMap tiles require network access. No AI or backend secrets are used in the frontend.
 
 ## Development commands
-
 ```bash
 npm run dev        # start Vite development server
-npm run typecheck  # run strict TypeScript checks
+npm run test       # run Vitest service tests
+npm run typecheck  # strict TypeScript checks
 npm run build      # type-check and create the production bundle
 npm run preview    # preview the production bundle locally
 ```
 
-## Kiro usage
-This repository keeps project guidance and the MVP spec under the root `.kiro/` directory. Use the steering documents as durable context and the `civiclens-mvp` requirements, design, and tasks as planning artifacts when working in Kiro. These files are documentation and specifications only; no Kiro workflow or task completion is claimed by their presence.
+## Kiro workflow
+Use the root `.kiro/steering/` docs and `.kiro/specs/civiclens-mvp/` requirements/design/tasks as planning guidance. The checklist distinguishes this completed frontend-only demo work from incomplete product, backend, policy, security, and launch work. Documentation does not imply those later systems exist.
 
-## Roadmap
-1. Validate user needs, operating model, report lifecycle, and launch region.
-2. Define privacy, moderation, retention, and location-precision policies.
-3. Select backend, authentication, media storage, mapping, and AI providers.
-4. Implement secure API/data foundations and accessible report capture.
-5. Add moderated report browsing, status workflows, and optional AI suggestions.
-6. Test security, accessibility, operations, and a small community pilot before launch.
-
-## License
-This project is licensed under the MIT License. See [`LICENSE`](LICENSE).
+## Phase 3 and production work remaining
+- Decide launch geography, supported languages, report lifecycle, responsible operating authorities and community model.
+- Approve privacy, consent, location precision, media retention, deletion/correction and moderation policies.
+- Select and implement secure backend, authentication (if needed), private media storage, access controls, API contracts, migrations, logging and operational monitoring.
+- Replace local demo repository with authorized server persistence and verified statuses; implement reporting receipt, recovery and rights flows.
+- Select map strategy and assess tile provider terms, privacy, availability and operational capacity.
+- Add optional AI only behind a secure server boundary with consent, provenance, confidence, validation and fallback.
+- Expand automated integration, accessibility, responsive, security and upload-failure testing, then run a community pilot and production launch review.

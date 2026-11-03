@@ -1,15 +1,19 @@
 # CivicLens MVP implementation checklist
 
 ## Status
-Planning checklist only. Tasks are not marked complete. Dependencies refer to product decisions and review gates as well as engineering work.
+Planning checklist with implementation evidence recorded below. Only the Phase 2 frontend demo and its scoped service tests are complete. Product decisions, backend/security, moderation, production operations and pilot tasks remain incomplete. No task is marked complete merely because a UI exists.
 
+## Phase 2 frontend implementation
+- [x] **Frontend-only demo experience.** Responsive routes, typed sample/local reports, dashboard, local report form/details, exploration filters, Leaflet/OpenStreetMap sample map and list view, profile preferences. Reports/preferences use separate versioned localStorage keys. Four automated service tests pass. This does not complete server-side report capture, cross-device persistence, production status views, accessibility audit, or production upload/privacy controls.
+
+## Product, backend and release work still required
 - [ ] **1. Validate product scope and launch context.** Agree on target municipalities, report lifecycle, who can act on reports, supported categories, languages, and non-goals. **Depends on:** stakeholder discovery. **Complete when:** scope and ownership are written and approved.
 - [ ] **2. Define privacy, safety, and moderation policy.** Decide anonymous vs authenticated reports, public visibility, location precision, retention/deletion, image handling, abuse escalation, and AI consent. **Depends on:** task 1. **Complete when:** user-facing policy and operational owner are identified.
 - [ ] **3. Select backend, auth, storage, AI, and map providers.** Compare cost, data location, accessibility, security, and vendor terms. **Depends on:** tasks 1-2. **Complete when:** choices and secrets-management plan are documented; no credentials are committed.
 - [ ] **4. Define domain/API contracts and database migrations.** Model reports, media, audit events, suggestions, and moderation; define error and idempotency behavior. **Depends on:** tasks 1-3. **Complete when:** reviewed schema, migrations, API schemas, and retention rules exist.
 - [ ] **5. Implement backend authorization and secure storage.** Add authentication (if selected), least-privilege policies/RLS, upload validation, rate limits, and audit behavior. **Depends on:** task 4. **Complete when:** role-based tests demonstrate forbidden access is denied and allowed access works.
-- [ ] **6. Build accessible report capture.** Implement draft, category, optional image/location, consent, review, success, and recovery states. **Depends on:** tasks 2, 4-5. **Complete when:** mobile, keyboard, and screen-reader core-flow checks pass without requiring AI or maps.
-- [ ] **7. Add report browsing and status views.** Implement filters, pagination, list-first alternative, optional map, coarse location, and verified status language. **Depends on:** tasks 4-5. **Complete when:** visibility rules are enforced and screen-reader/keyboard alternatives are tested.
+- [ ] **6. Production report capture.** Replace local demo with authorized backend draft, category, optional image/location, consent, review, success, and recovery states. **Depends on:** tasks 2, 4-5. **Complete when:** backend flow works and mobile, keyboard, screen-reader checks pass.
+- [ ] **7. Production report browsing and status views.** Implement filters, pagination, list-first alternative, optional map, coarse location, and verified status language. **Depends on:** tasks 4-5. **Complete when:** visibility rules are enforced and screen-reader/keyboard alternatives are tested.
 - [ ] **8. Add optional AI assistance behind server boundary.** Implement schema-validated suggestions, uncertainty/provenance, consent, timeout/fallback, correction, and abuse controls. **Depends on:** tasks 2-5. **Complete when:** provider failures do not block manual reporting and no secret is exposed in client bundles.
 - [ ] **9. Build moderation and data-rights flows.** Add flag review, limited moderator access, corrections, deletion, and retention jobs. **Depends on:** tasks 2, 4-5. **Complete when:** actions are auditable, policy-aligned, and tested.
 - [ ] **10. Add comprehensive quality gates.** Add unit, integration, accessibility, security/RLS, responsive, upload, and failure-mode tests plus CI. **Depends on:** tasks 5-9. **Complete when:** checks run on pull requests and release criteria are documented.
